@@ -27,20 +27,6 @@ class Solution:
                     return indexDiff
         return 0
 
-    def maxIndexDiff(self,a, n):
-        left = 0
-        right = n - 1
-        result = 0
-
-        if a[left] > a[right] and left < right:
-            print(f'Comparing a[{left}] to a[{right}]: {a[left]} <= {a[right]} -> {a[left] <= a[right]}')
-            if a[left + 1] <= a[right] or a[left] <= a[right - 1]:
-                return n - 1
-
-
-        return result
-
-
 a = [10, 9, 8, 7, 6, 5, 4, 3, 1, 2]
 s = Solution()
 s.maxIndexDiff(a, len(a))
