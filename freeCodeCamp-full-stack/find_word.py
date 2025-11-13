@@ -74,9 +74,16 @@ def find_word(matrix, word):
 
 
 # Determines if the list represents the word
-def is_word(row, word):
+def is_hz_word(row, word):
     return ''.join(row) == word
 
 # Determines if the list represents the reversed word
-def is_reverse_word(row, word):
+def is_hz_reverse_word(row, word):
     return ''.join(row[::-1]) == word
+
+# Gets a column with the specified index from a matrix
+def get_column(matrix, col_index):
+    column = []
+    for row_index in range(len(matrix)):
+        column.append(matrix[row_index, col_index])
+    return column
