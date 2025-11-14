@@ -1,6 +1,7 @@
 # Word Search
 #
-# Given a matrix (an array of arrays) of single letters and a word to find, return the start and end indices of the word in the matrix.
+# Given a matrix (an array of arrays) of single letters and a word to find,
+# return the start and end indices of the word in the matrix.
 #
 #     The given matrix will be filled with all lowercase letters (a-z).
 #     The word to find will always be in the matrix exactly once.
@@ -26,64 +27,70 @@
 # (end of the word).
 
 def find_word(matrix, word):
-    # Set found flag to false
-    word_coords = None
-    # Is the first row the word?
-    row_index = 0
-    # Check if the first row represents the word or reversed word
-    row: list = matrix[row_index]
-    if ''.join(row) == word:
-        word_coords = [[0, 0], [0, len(row)]]
-    elif ''.join(row[::-1]) == word:
-        word_coords = [[0, len(row)], [0, 0]]
+    word_coords: list = None
+    row_index: int = 0
+    candidate: list = []
+    word_length: int = len(word)
+    # Check rows for a match
+    while row_index < word_length and word_coords is None:
+        candidate = matrix[row_index]
+        if is_word(candidate, word):
+            word_coords = [[row_index, 0], [row_index, word_length - 1]]
+        elif is_reverse_word(candidate, word):
+            word_coords = [[row_index, word_length - 1], [row_index, 0]]
+        else:
+            row_index += 1
 
- #   if word_coords is None:
- #       if word[0] in row:
- #           col_index = row.index(word[0])
+    # Check columns for a match if rows do not match
+    if word_coords is None:
+        col_index: int = 0
+        first_letter: str = word[0]
+        # Check the first row, then the last
+        row: list = matrix[0]
+        if first_letter not in row:
+            # Check the last row
+            row = matrix[len(matrix) - 1]
 
-    # Try to find the first letter position in the first row.
-
-    # It can occur 0 or more times.
-    # If it occurs:
-    #   for each occurrence:
-    #       set the first return value to row, col of the occurrence
-    #       start counting from the next row
-    #       set exit flag to false
-    #       while exit flag is false:
-    #           if the current row is before the last or is the last itself:
-    #               check if the correspondent letter in the same column
-    #               is the letter from the word with the same index as the row
-    #               if it is:
-    #                   increment row
-    #               else:
-    #                   set exit flag to true
-    #           else:
-    #               (if we get here, the word is found)
-    #               set found flag to true
-    #               set the second return value to last row, col of the occurrence
-    #               set exit flag to true
-    #   if not found:
-    #       Repeat FIND VERTICAL WORD searching from the last letter to the first one downward.
-    #   if not found:
-    #       join each row to find the word
-    #   if not found:
-    #       join each reversed row to find the word
-    #
-    #
-    return matrix
+        # Check for no match to search safely
+        if first_letter in row:
+            # Check for certain occurrences
+            start_pos: int = 0
+            while start_pos < word_length and word_coords is None:
+                col_index = row.index(first_letter, start_pos)
+                candidate = get_column(matrix, col_index)
+                if is_word(candidate, word):
+                    word_coords = [[0, col_index], [word_length - 1, col_index]]
+                elif is_reverse_word(candidate, word):
+                    word_coords = [[word_length - 1, col_index], [0, col_index]]
+                else:
+                    start_pos = col_index + 1
+    return word_coords
 
 
 # Determines if the list represents the word
-def is_hz_word(row, word):
+def is_word(row, word):
     return ''.join(row) == word
 
+
 # Determines if the list represents the reversed word
-def is_hz_reverse_word(row, word):
+def is_reverse_word(row, word):
     return ''.join(row[::-1]) == word
 
+
 # Gets a column with the specified index from a matrix
-def get_column(matrix, col_index):
+def get_column(matrix: list, col_index: int) -> list:
     column = []
     for row_index in range(len(matrix)):
-        column.append(matrix[row_index, col_index])
+        column.append(matrix[row_index] [col_index])
     return column
+
+
+matrix: list = [
+    ["a", "c", "t"],
+    ["t", "a", "t"],
+    ["c", "t", "c"]
+]
+
+word: str = 'cat'
+
+print(find_word(matrix, word))
