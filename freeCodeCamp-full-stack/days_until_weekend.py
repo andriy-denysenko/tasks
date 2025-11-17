@@ -10,10 +10,11 @@
 
 from datetime import datetime as dt
 
+
 # Detects whether the date specified is a weekend.
 # If not, calculates the number of days left until the weekend.
 def days_until_weekend(date_string: str):
-    # Get 1-based week day number for simplier calculation
+    # Get 1-based week day number for simpler calculation
     week_day: int = dt.strptime(date_string, "%Y-%m-%d").weekday() + 1
     response: str = "It's the weekend!"
     if week_day not in [6, 7]:
@@ -21,6 +22,7 @@ def days_until_weekend(date_string: str):
         pl: str = 's' if days_left > 1 else ''
         response = f"{days_left} day{pl} until the weekend."
     return response
+
 
 assert (days_until_weekend("2025-11-14") == "1 day until the weekend.")
 assert (days_until_weekend("2025-01-01") == "3 days until the weekend.")
