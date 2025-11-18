@@ -8,6 +8,16 @@
 # the largest number that appears in both sets of divisors.
 
 
-def is_prime(n):
-    # A prime number has no divisors between itself and 1
-    pass
+def gcd(a, b):
+    while b != 0:
+        temp = b
+        b = a % b
+        a = temp
+    return a
+
+
+assert (gcd(4, 6) == 2)
+assert (gcd(20, 15) == 5)
+assert (gcd(13, 17) == 1)
+assert (gcd(654, 456) == 6)
+assert (gcd(3456, 4320) == 864)
